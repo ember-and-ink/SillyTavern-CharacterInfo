@@ -1,0 +1,352 @@
+/* Character Info — read-only card viewer.
+ *
+ * Everything here is drawn from SillyTavern's own --SmartTheme* variables, so
+ * the modal follows whatever theme is loaded. In particular the body text
+ * mirrors how the chat renders messages (quotes, italics, underline), because
+ * that's the colouring the reader's eye is already trained on. */
+
+.sci-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 16px;
+}
+
+.sci-modal {
+    position: relative;
+    background: var(--SmartThemeBlurTintColor, #1e1e1e);
+    color: var(--SmartThemeBodyColor, #e0e0e0);
+    border: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.15));
+    border-radius: 10px;
+    width: min(760px, 100%);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+.sci-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.12));
+    flex-shrink: 0;
+}
+
+.sci-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.sci-title {
+    flex: 1;
+    min-width: 0;
+}
+
+.sci-title h3 {
+    margin: 0;
+    font-size: 1.15em;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sci-subtitle {
+    font-size: 0.8em;
+    opacity: 0.65;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sci-header-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.sci-header-actions .menu_button {
+    margin: 0;
+    padding: 6px 10px;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────── */
+.sci-body {
+    padding: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sci-empty {
+    text-align: center;
+    padding: 36px 12px;
+    opacity: 0.7;
+}
+
+/* ── Sections as cards ────────────────────────────────────────────────
+ * Each section is a bordered card with a tinted header rather than a rule
+ * between rows. The border is what stops a long description and the section
+ * after it reading as one continuous wall. */
+.sci-section {
+    border: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.15));
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.13);
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.sci-section:last-child {
+    margin-bottom: 0;
+}
+
+.sci-section > summary {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 12px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sci-section > summary::-webkit-details-marker {
+    display: none;
+}
+
+.sci-section[open] > summary {
+    border-bottom: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.15));
+}
+
+.sci-section > summary:hover {
+    background: rgba(255, 255, 255, 0.09);
+}
+
+/* The heading takes the theme's accent colour, the same one the chat uses for
+ * dialogue — it reads as "this is structure, not prose". */
+.sci-section > summary > i:first-child,
+.sci-section-label {
+    color: var(--SmartThemeQuoteColor, #6ba4e8);
+}
+
+.sci-section > summary > i:first-child {
+    width: 1.1em;
+    text-align: center;
+    opacity: 0.85;
+}
+
+.sci-section-label {
+    flex: 1;
+    min-width: 0;
+    letter-spacing: 0.01em;
+}
+
+.sci-count {
+    font-size: 0.75em;
+    font-weight: 400;
+    opacity: 0.45;
+    font-variant-numeric: tabular-nums;
+}
+
+.sci-chevron {
+    font-size: 0.8em;
+    opacity: 0.5;
+    transition: transform 0.15s ease;
+}
+
+.sci-section[open] > summary .sci-chevron {
+    transform: rotate(180deg);
+}
+
+/* ── Section content ──────────────────────────────────────────────── */
+.sci-content {
+    padding: 12px;
+    line-height: 1.55;
+    /* Card text is arbitrary third-party markdown; keep long URLs and code
+       from pushing the modal sideways. */
+    overflow-wrap: anywhere;
+}
+
+/* Multi-part sections (alternate greetings, example exchanges) box each part. */
+.sci-content--split .sci-block {
+    border: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.12));
+    border-radius: 6px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.sci-block-label {
+    font-size: 0.72em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    opacity: 0.55;
+    margin: 16px 0 5px;
+}
+
+.sci-block-label:first-child {
+    margin-top: 0;
+}
+
+.sci-block + .sci-block {
+    margin-top: 14px;
+}
+
+.sci-block > *:first-child { margin-top: 0; }
+.sci-block > *:last-child { margin-bottom: 0; }
+
+/* ── Card text: mirror how SillyTavern renders chat messages ──────────
+ * Same variables, same roles (public/style.css .mes_text). Dialogue, emphasis
+ * and underline each pick up their theme colour, which is most of what breaks
+ * a block of card prose into something skimmable. */
+.sci-block q {
+    color: var(--SmartThemeQuoteColor, #6ba4e8);
+}
+
+/* The quote characters are already in the text, so suppress the browser's. */
+.sci-block q::before,
+.sci-block q::after {
+    content: none;
+}
+
+.sci-block i,
+.sci-block em {
+    color: var(--SmartThemeEmColor, #919191);
+}
+
+.sci-block u {
+    color: var(--SmartThemeUnderlineColor, #bce7cf);
+}
+
+.sci-block strong,
+.sci-block b {
+    font-weight: 700;
+    color: var(--SmartThemeBodyColor, #e0e0e0);
+}
+
+.sci-block p { margin: 0 0 0.75em; }
+.sci-block ul,
+.sci-block ol { margin: 0 0 0.75em; padding-left: 1.5em; }
+.sci-block li { margin-bottom: 0.25em; }
+
+/* Headings inside a card's own markdown get a rule under them — cards often
+   use them as section dividers ("Important notes", "Creator notes") and they'd
+   otherwise be just another bold line. */
+.sci-block h1,
+.sci-block h2,
+.sci-block h3 {
+    font-size: 1.02em;
+    font-weight: 700;
+    margin: 1.4em 0 0.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.12));
+    color: var(--SmartThemeQuoteColor, #6ba4e8);
+    opacity: 0.9;
+}
+
+.sci-block h4,
+.sci-block h5,
+.sci-block h6 {
+    font-size: 1em;
+    font-weight: 700;
+    margin: 1.2em 0 0.4em;
+}
+
+.sci-block img {
+    max-width: 100%;
+    /* Card art is decoration here, not the point — cap it so a banner image
+       doesn't cost the whole viewport before the text starts. */
+    max-height: 45vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+    margin: 0 auto 0.75em;
+}
+
+.sci-block hr {
+    border: none;
+    border-top: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.15));
+    margin: 1.2em 0;
+}
+
+.sci-block blockquote {
+    margin: 0 0 0.75em;
+    padding: 2px 0 2px 10px;
+    border-left: 3px solid var(--SmartThemeQuoteColor, #6ba4e8);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.sci-block code {
+    background: rgba(128, 128, 128, 0.18);
+    border-radius: 3px;
+    padding: 0.1em 0.35em;
+    font-size: 0.9em;
+}
+
+.sci-block pre {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    padding: 10px;
+    overflow-x: auto;
+}
+
+.sci-block pre code {
+    background: none;
+    padding: 0;
+}
+
+.sci-block table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 0.75em;
+}
+
+.sci-block th,
+.sci-block td {
+    border: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.15));
+    padding: 5px 8px;
+    text-align: left;
+}
+
+.sci-block th {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Small screens ────────────────────────────────────────────────── */
+@media screen and (max-width: 1000px) {
+    .sci-overlay {
+        padding: 0;
+    }
+
+    /* Full-bleed on a phone or a tablet in portrait: the whole point is to read
+       long text, and every pixel of margin is a line of description lost. */
+    .sci-modal {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border: none;
+        border-radius: 0;
+    }
+
+    .sci-section > summary {
+        /* Comfortable tap target. */
+        padding: 12px;
+    }
+}

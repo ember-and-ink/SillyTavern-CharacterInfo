@@ -1,0 +1,22 @@
+{
+    "name": "sillytavern-character-info",
+    "version": "1.0.0",
+    "description": "SillyTavern extension: a fast, read-only modal showing the current character's card — creator's notes, description, personality, scenario, greetings, and examples.",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix .",
+        "test": "vitest run",
+        "test:watch": "vitest"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@eslint/js": "^9.0.0",
+        "dompurify": "^3.4.15",
+        "eslint": "^9.0.0",
+        "globals": "^15.0.0",
+        "jsdom": "^29.1.1",
+        "vitest": "^2.0.0"
+    }
+}
