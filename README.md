@@ -14,14 +14,14 @@ Rereading the card is how you stay consistent with it. Locations, names, and the
 In SillyTavern, go to **Extensions → Install extension** and enter:
 
 ```
-https://github.com/EnchantedRobot/SillyTavern-CharacterInfo
+https://github.com/ember-and-ink/SillyTavern-CharacterInfo
 ```
 
 Or clone it manually into your user extensions directory:
 
 ```bash
 cd data/default-user/extensions
-git clone https://github.com/EnchantedRobot/SillyTavern-CharacterInfo
+git clone https://github.com/ember-and-ink/SillyTavern-CharacterInfo
 ```
 
 Reload SillyTavern.

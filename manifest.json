@@ -5,8 +5,8 @@
     "optional": [],
     "js": "index.js",
     "css": "style.css",
-    "author": "EnchantedRobot",
+    "author": "mjnitz02",
     "version": "1.0.0",
-    "homePage": "https://github.com/EnchantedRobot/SillyTavern-CharacterInfo",
+    "homePage": "https://github.com/ember-and-ink/SillyTavern-CharacterInfo",
     "auto_update": true
 }
